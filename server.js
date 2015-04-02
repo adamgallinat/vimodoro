@@ -4,11 +4,12 @@ var application_root = __dirname,
     path             = require('path'),
     logger           = require('morgan'),
     models           = require('./models'),
-    Vimeo						 = require('vimeo-api').Vimeo;
+    Vimeo			 			 = require('vimeo-api').Vimeo;
 
 var app = express();
 require('dotenv').load();
 
+// Vimeo suggested syntax for instantiating module
 var lib = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_TOKEN);
 
 var User = models.users;
@@ -74,7 +75,7 @@ app.post('/users', function(req, res) {
 app.put('/users/:id', function(req, res) {
 	User.findOne(req.params.id)
 		.then(function(user) {
-			User.update(req.body)
+			user.update(req.body)
 				.then(function(updatedUser) {
 					res.send(updatedUser);
 				});
@@ -84,7 +85,7 @@ app.put('/users/:id', function(req, res) {
 app.delete('/users/:id', function(req, res) {
 	User.findOne(req.params.id)
 		.then(function(user) {
-			User.destroy()
+			user.destroy()
 				.then(function() {
 					res.send(user);
 				});
@@ -117,14 +118,14 @@ app.put('/users/:id/remove_keyword', function(req, res) {
 
 // KEYWORD ROUTES
 app.get('/keywords', function(req, res) {
-	Keyword.findAll()
+	Keyword.findAll({include: User})
 		.then(function(keywords) {
 			res.send(keywords);
 		});
 });
 
 app.get('/keywords/:id', function(req, res) {
-	Keyword.findOne(req.params.id)
+	Keyword.findOne({where: {id: req.params.id}, include:[User]})
 		.then(function(keyword) {
 			res.send(keyword);
 		});
