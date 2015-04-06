@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title> vimodoro </title>
+	<title>vimodoro</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>		
 	<script src="bundle.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
@@ -13,6 +15,7 @@
 	<script src="js/models/user.js"></script>
 	<script src="js/collections/keywords.js"></script>
 	<script src="js/collections/users.js"></script>
+	<script src="js/video.js"></script>
 	<script src="js/views/preferences.js"></script>
 	<script src="js/views/keyword.js"></script>
 	<script src="js/views/keywords.js"></script>
@@ -24,76 +27,86 @@
 </head>
 <body>
 
-	<h1>VIMODORO</h1>
+<!-- INTRO -->
+
+	<div id="intro-page" class="hidden">
+		<div id="intro-container" class="animated fadeInUp">
+			<img src="assets/vimodoro_logo_white.png" alt="vimodoro_logo_white" class="white-logo">
+		</div>
+	</div>
+
+
+<!-- HEADER -->
+
+	<header class="header animated fadeInDown">
+		<div class="logo-container">
+			<img src="assets/vimodoro_logo_nobg.png" alt="vimodoro_logo_nobg" class="nobg-logo">
+		</div>
+	</header>
 
 
 <!-- VIEWS -->
 
-	<div id='login-view'></div>
-	<div id='create-user-view'></div>	
+	<div id="login-view"       class="animated fadeInDownBig"></div>
+	<div id="create-user-view" class="animated fadeInUpBig"  ></div>
 	<div id="preferences-view"></div>
-	<div id="timer-view"></div>
+	<div id="timer-view"      ></div>
 	<div id="video-modal-view"></div>
 
 
 <!-- TEMPLATES -->
 
-	<template id='create-user-template'>
-		<hr><br>
-		<span>
-			<input type="text" name='new-name' id='name' placeholder='Enter a new username' autocomplete='off'>
-		</span>
-		<span>
-			<button id='create-user'>Create User</button>
-		</span>	
-		<br><br>
+	<template id='user-preview-template' class='user'>
+		<div class='user'>
+			<span class='user-name'>{{name}}</span>
+			<span class="delete-user">X</span>
+		</div>
 	</template>
 
-	<template id='user-preview-template'>
-		<div class='user'>
-			<span id='user-name'>{{name}}</span>
-			<span id='delete-user'>x</span>
-		</div>
+	<template id='create-user-template'>
+		<input type="text" name='new-name' id='name-input' placeholder='Create New User' onfocus="this.placeholder = ''" autocomplete='off' maxlength="20">
+		<span id='create-user-button'>+</span>
 	</template>
 
 	<template id="preferences-template">
-		<div id="interval-set">
-			<span>I want to work for</span>
-			<input id="interval-input" type="text" value={{interval}}>
-			<span>minutes</span>
+		<div id="preferences-container">
+			<div id="interval-set" class="set-times">
+				<span class="preferences-text for-time">Work for</span>
+				<input id="interval-input" class="preferences-input" type="text" onfocus="this.placeholder = ''" value={{interval}}>
+				<span class="preferences-text minutes">minutes</span>
+			</div>
+			<div id="duration-set" class="set-times">
+				<span class="preferences-text for-time">Break for</span>
+				<input id="duration-input" class="preferences-input" type="text" onfocus="this.placeholder = ''" value={{duration}}>
+				<span class="preferences-text minutes">minutes</span>
+			</div>
+			<div id="keyword-container">
+				<div class="interests">Interested in:</div>
+				<div id="keywords-box"></div>
+			</div>
 		</div>
-		<div id="duration-set">
-			<span>And I want to take</span>
-			<input id="duration-input" type="text" value={{duration}}>
-			<span>minute breaks.</span>
+
+		<div id="preferences-start-button-container">
+			<button id="start-interval-button" disabled>Start</button>
 		</div>
-		<div id="keyword-selector">
-			<span>I'm interested in...</span>
-			<div id="keywords-box"></div>
-		</div>
-		<button id="start-interval">Go!</button>
 	</template>
 
-	<template id="keyword-template">
-		<div id="keyword">{{term}}</div>
-	</template>
+	<template id="keyword-template">{{term}}</template>
 
 	 <!-- interval-timer template -->
  	<template id="interval-timer-template">
 		<div id="interval-timer">
-			<span id="timer-minutes"> {{interval}} </span>
-			<span id="timer-seconds">      00 		 </span>
+			<span id="timer-minutes">{{interval}}</span>
+			<span id="timer-semicolon">:</span>
+			<span id="timer-seconds">00</span>
 		</div>
-	 <!-- back button: go back to user preferences page -->
 		<button id="go-back-button"></button>
 	</template>		
 
 	 <!-- video modal -->
 	<template id="video-modal-template">
 		<div id="modal-background">
-			<div id="video-container">
-				{{{html}}}
-			</div>
+			<div id="video-container">{{{html}}}</div>
 		</div>
 	</template>
 

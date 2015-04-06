@@ -20,9 +20,11 @@ App.Views.IntervalTimer = Backbone.View.extend({
 	},
 
 	startTimer: function() {
-		this.timer = setInterval( function() { 			
-			var seconds = parseInt( $('#timer-seconds').html() );
-			var minutes = parseInt( $('#timer-minutes').html() );
+		this.timer = setInterval( function() { 	
+
+			var minutes = parseInt($('#timer-minutes').html());
+			var seconds = parseInt($('#timer-seconds').html());
+		
 			if (seconds === 0) {
 				if (minutes === 0) {
 					clearInterval(this.timer);
@@ -30,12 +32,12 @@ App.Views.IntervalTimer = Backbone.View.extend({
 				} else {
 					seconds = 59;
 					minutes -= 1;
-					$('#timer-minutes').html(minutes);
-					$('#timer-seconds').html(seconds);
+					$('#timer-minutes').html(minutes = minutes < 10 ? "0" + minutes : minutes);
+					$('#timer-seconds').html(seconds = seconds < 10 ? "0" + seconds : seconds);
 				}
 			} else {
 				seconds -= 1;
-				$('#timer-seconds').html(seconds);
+				$('#timer-seconds').html(seconds = seconds < 10 ? "0" + seconds : seconds);
 			};
 		}.bind(this), 1000);
 	},

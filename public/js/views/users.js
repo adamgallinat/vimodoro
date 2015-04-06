@@ -14,14 +14,5 @@ App.Views.Users = Backbone.View.extend({
 
 	renderOne: function(user) {
 		this.$el.append(new App.Views.User({model: user}).$el);
-	},
-
-	events: {
-		'click #user-name': 'hideUsers'
-	},
-
-	hideUsers: function() {
-		this.$el.hide()
-		App.createUserView.$el.hide();
 	}
 });
