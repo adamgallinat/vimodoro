@@ -23,46 +23,68 @@ var Keyword = models.keywords;
 
 var keywords = [
 	{
-		term: 'Animation'
+		term: 'Animation',
+		uri: 'animation'
 	},
 	{
-		term: 'Arts'
+		term: 'Arts & Design',
+		uri: 'art'
 	},
 	{
-		term: 'Comedy'
+		term: 'Cameras & Techniques',
+		uri: 'cameratechniques'
 	},
 	{
-		term: 'Documentary'
+		term: 'Comedy',
+		uri: 'comedy'
 	},
 	{
-		term: 'Fashion'
+		term: 'Documentary',
+		uri: 'documentary'
 	},
 	{
-		term: 'Food'
+		term: 'Experimental',
+		uri: 'experimental'
 	},
 	{
-		term: 'Music'
+		term: 'Fashion',
+		uri: 'fashion'
 	},
 	{
-		term: 'Narrative'
+		term: 'Food',
+		uri: 'food'
 	},
 	{
-		term: 'Personal'
+		term: 'Instructionals',
+		uri: 'instructionals'
 	},
 	{
-		term: 'Journalism'
+		term: 'Music',
+		uri: 'music'
 	},
 	{
-		term: 'Sports'
+		term: 'Narrative',
+		uri: 'narrative'
 	},
 	{
-		term: 'Surfing'
+		term: 'Personal',
+		uri: 'personal'
 	},
 	{
-		term: 'Travel'
+		term: 'Reporting & Journalism',
+		uri: 'journalism'
 	},
 	{
-		term: 'Video Games'
+		term: 'Sports',
+		uri: 'sports'
+	},
+	{
+		term: 'Talks',
+		uri: 'talks'
+	},
+	{
+		term: 'Travel',
+		uri: 'travel'
 	}
 ]
 
@@ -78,7 +100,8 @@ var seedDatabase = function () {
 	keywords.forEach( function (keyword) {
 		Keyword
 			.create({
-				term: keyword.term
+				term: keyword.term,
+				uri: keyword.uri
 			});
 	});
 };

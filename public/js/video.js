@@ -2,18 +2,17 @@ App.video = {
 	
 	pickRandomInterest: function() {
 		var interests = App.currentUser.get('keywords');
-		return interests[Math.floor(Math.random() * interests.length)].term;
+		return interests[Math.floor(Math.random() * interests.length)].uri;
 	},
 
 	get: function() {
 		console.log('getting videos...');
 		var keyword = this.pickRandomInterest();
 		$.ajax({
-			url: '/videos',
+			url: '/categories/' + keyword + '/videos',
 			method: 'GET',
 			data: {
-				search_term: keyword,
-				api: 1,
+				// api: 1,
 				page: parseInt($.cookie(keyword))
 			}
 		})
@@ -28,7 +27,8 @@ App.video = {
 			return {
 				uri: video.uri,
 				duration: video.duration,
-				html: video.embed.html
+				html: video.embed.html,
+				embed: video.privacy.embed
 			};
 		});
 		var currentBestVideo = {};
@@ -36,7 +36,7 @@ App.video = {
 
 		videos.forEach(function(video) {
 			var durationDifference = Math.abs(video.duration - (App.currentUser.get('duration') * 60));
-			if (durationDifference < currentBestDurationDifference) {
+			if ((durationDifference < currentBestDurationDifference) && (video.embed === 'public')) {
 				currentBestVideo = video;
 				currentBestDurationDifference = durationDifference;
 			}

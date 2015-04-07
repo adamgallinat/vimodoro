@@ -1,7 +1,8 @@
 "use strict";
 module.exports = function(sequelize, DataTypes) {
   var keywords = sequelize.define("keywords", {
-    term: DataTypes.STRING
+    term: DataTypes.STRING,
+    uri: DataTypes.STRING
   }, {
     timestamps: false,
     classMethods: {

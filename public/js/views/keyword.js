@@ -15,6 +15,7 @@ App.Views.KeywordView = Backbone.View.extend({
 	render: function() {
 		html = this.template(this.model.toJSON());
 		this.$el.html(html);
+		this.$el.attr('data-uri', this.model.get('uri'));
 	},
 
 	toggleSelect: function() {

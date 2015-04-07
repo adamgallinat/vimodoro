@@ -28,15 +28,13 @@ module.exports = app;
 
 // USER ROUTES
 // Request 50 videos with query 'search_term'
-app.get('/videos', function(req, res) {
+app.get('/categories/:category/videos', function(req, res) {
 	lib.request({
 		method: 'GET',
-		path: '/videos', //vimeo.api/videos
+		path: '/categories/' + req.params.category + '/videos', //vimeo.api/videos
 		query: {
-			page: 1,
-			per_page: 50,
 			page: req.query.page,
-			query: req.query.search_term,
+			per_page: 50,
 			sort: 'date',
 			direction: 'desc'
 		}

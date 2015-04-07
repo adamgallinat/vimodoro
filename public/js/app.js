@@ -7,7 +7,7 @@ var App = {
 
 App.saveCookie = function() {
 	App.keywords.each(function(keyword) {
-		$.cookie(keyword.get('term'), '1');
+		$.cookie(keyword.get('uri'), '1');
 	});
 };
 
