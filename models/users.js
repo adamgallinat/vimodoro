@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var users = sequelize.define("users", {
     name: DataTypes.STRING,
     interval: DataTypes.INTEGER,
-    duration: DataTypes.INTEGER
+    duration: DataTypes.INTEGER,
+    password: DataTypes.STRING
   }, {
     timestamps: false,
     classMethods: {

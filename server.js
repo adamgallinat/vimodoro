@@ -4,6 +4,8 @@ var application_root = __dirname,
     path             = require('path'),
     logger           = require('morgan'),
     models           = require('./models'),
+    bcrypt 					 = require('bcrypt'),
+    session					 = require('express-session'),
     Vimeo			 			 = require('vimeo-api').Vimeo;
 
 var app = express();
@@ -18,6 +20,9 @@ var Keyword = models.keywords;
 // Server Configuration
 app.use(logger('dev'));
 app.use( bodyParser() );
+app.use( session({
+	secret: 'fdshakghdsagd'
+}) );
 app.use( express.static( path.join( application_root, 'public' )))
 app.use( express.static( path.join( application_root, 'browser' )))
 
@@ -49,6 +54,30 @@ app.get('/categories/:category/videos', function(req, res) {
 	});
 });
 
+app.get('/current_user', function(req, res) {
+	res.send(req.session);
+});
+
+app.post('/login', function(req, res) {
+	console.log(req.body);
+	User.findOne({where: {name: req.body.name}, include: [Keyword]})
+		.then(function(user) {
+			bcrypt.compare(req.body.password, user.password, function(err, result) {
+				if (result) {
+					req.session.current_user = user.id;
+					res.send(user);
+				} else {
+					res.status(401).send({err: 'bad creds'});
+				}
+			});
+		});
+});
+
+app.delete('/login', function(req, res) {
+	delete req.session.current_user;
+	res.send('logged out');
+});
+
 app.get('/users', function(req, res) {
 	User.findAll({include: Keyword})
 		.then(function(users) {
@@ -67,10 +96,20 @@ app.get('/users/:id', function(req, res) {
 });
 
 app.post('/users', function(req, res) {
-	User.create(req.body)
-		.then(function(user) {
-			res.send(user);
-		});
+	console.log(req.body);
+	bcrypt.hash(req.body.password, 10, function(err, hash) {
+		console.log(req.body.name);
+		console.log(hash);
+		User.create({
+			name: req.body.name,
+			password: hash,
+			interval: 20,
+			duration: 3
+		})
+			.then(function(user) {
+				res.send(user);
+			});
+	});
 });
 
 app.put('/users/:id', function(req, res) {

@@ -27,22 +27,10 @@
 </head>
 <body>
 
-
-<!-- HEADER -->
-
-	<header class="header animated fadeInDown">
-		<div class="logo-container">
-			<a href="http://glacial-cliffs-7290.herokuapp.com/"><img src="assets/vimodoro_logo_nobg.png" alt="vimodoro_logo_nobg" class="nobg-logo"></a>
-		</div>
-	</header>
-
-
 <!-- VIEWS -->
 	
-	<div id="login-container" class="animated fadeInDownBig">
-		<div id="login-view"></div>
-	</div>
-	<div id="create-user-view" class="animated fadeInUpBig"  ></div>
+	<header class="header"></header>
+	<div id="login-container" class="animated fadeInUpBig"></div>
 	<div id="preferences-view"></div>
 	<div id="timer-view"      ></div>
 	<div id="video-modal-view"></div>
@@ -50,16 +38,35 @@
 
 <!-- TEMPLATES -->
 
-	<template id='user-preview-template' class='user'>
-		<div class='user'>
-			<span class='user-name'>{{name}}</span>
-			<span class="delete-user">X</span>
+	<template id="header">
+		<div class="logo-container">
+			<!-- <a href="http://vimodoro.herokuapp.com/"> -->
+				<img src="assets/vimodoro_logo_nobg.png" alt="vimodoro_logo_nobg" class="nobg-logo">
+			<!-- </a> -->
+			<div id="welcome-user">
+				{{#if user}}
+					Welcome back, {{user}}! <span id="logout-link">Logout</span>
+				{{/if}}
+			</div>
 		</div>
 	</template>
 
-	<template id='create-user-template'>
-		<input type="text" name='new-name' id='name-input' placeholder='Create New User' onfocus="this.placeholder = ''" autocomplete='off' maxlength="20">
-		<span id='create-user-button'>+</span>
+	<template id="log-in-template">
+		<div id="login-view">
+			<input type="text" id="user-name" class="input" placeholder="User Name"></input>
+			<input type="password" id="password" class="input"></input>
+			<div class="submit" id="log-in-button">Log In</div>
+			<div id="create-user-button" class="button">Create a New Account</div>
+		</div>
+	</template>
+
+	<template id="sign-up-template">
+		<div id="login-view">
+			<input type="text" id="user-name" class="input" placeholder="User Name"></input>
+			<input type="password" id="password" class="input"></input>
+			<div class="submit" id="sign-up-button">Sign Up</div>
+			<div id="login-user-button" class="button">Log Into Existing Account</div>
+		</div>
 	</template>
 
 	<template id="preferences-template">
