@@ -3,7 +3,6 @@ App.Views.KeywordsView = Backbone.View.extend({
 	el: '#keywords-box',
 
 	initialize: function() {
-		console.log('new keywords collection view created');
 		this.renderAll();
 	},
 

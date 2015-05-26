@@ -3,7 +3,6 @@ App.Views.Preferences = Backbone.View.extend({
 	el: '#preferences-view',
 	
 	initialize: function() {
-		console.log('new preferences view created');
 		this.template = Handlebars.compile($('#preferences-template').html());
 		this.render();
 	},
