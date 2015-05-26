@@ -21,38 +21,42 @@ App.Views.IntervalTimer = Backbone.View.extend({
 	},
 
 	startTimer: function() {
-		this.timer = setInterval( function() { 	
+		if (!App.interval) {
+			App.interval = setInterval( function() { 	
 
-			var minutes = parseInt($('#timer-minutes').html());
-			var seconds = parseInt($('#timer-seconds').html());
-		
-			if (seconds === 0) {
-				if (minutes === 0) {
-					clearInterval(this.timer);
-					this.launchVideo();
+				var minutes = parseInt($('#timer-minutes').html());
+				var seconds = parseInt($('#timer-seconds').html());
+			
+				if (seconds === 0) {
+					if (minutes === 0) {
+						clearInterval(this.timer);
+						this.launchVideo();
+					} else {
+						seconds = 59;
+						minutes -= 1;
+						$('#timer-minutes').html(minutes = minutes < 10 ? "0" + minutes : minutes);
+						$('#timer-seconds').html(seconds = seconds < 10 ? "0" + seconds : seconds);
+					}
 				} else {
-					seconds = 59;
-					minutes -= 1;
-					$('#timer-minutes').html(minutes = minutes < 10 ? "0" + minutes : minutes);
+					seconds -= 1;
 					$('#timer-seconds').html(seconds = seconds < 10 ? "0" + seconds : seconds);
-				}
-			} else {
-				seconds -= 1;
-				$('#timer-seconds').html(seconds = seconds < 10 ? "0" + seconds : seconds);
-			};
-		}.bind(this), 1000);
+				};
+			}.bind(this), 1000);
+		}
 	},
 
 	launchVideo: function() {
-		clearInterval(this.timer);
+		clearInterval(App.interval);
+		App.interval = null;
 		this.$el.hide();
 		App.modal = new App.Views.VideoModal();
 	},
 
 	goBack: function() {
-		clearInterval(this.timer);
+		clearInterval(App.interval);
+		App.interval = null;
 		this.$el.hide();
-		App.preferences.$el.show();
+		App.preferencesView.$el.show();
 	}
 
 });
