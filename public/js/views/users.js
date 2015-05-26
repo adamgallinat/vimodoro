@@ -5,14 +5,15 @@ App.Views.Users = Backbone.View.extend({
 	initialize: function() {
 		this.loginTemplate = Handlebars.compile($('#log-in-template').html());
 		this.signUpTemplate = Handlebars.compile($('#sign-up-template').html());
-		this.renderLogin();
 	},
 
 	renderLogin: function() {
+		this.$el.empty();
 		this.$el.html(this.loginTemplate());
 	},
 
 	renderSignUp: function() {
+		this.$el.empty();
 		this.$el.html(this.signUpTemplate());
 	},
 
@@ -37,10 +38,10 @@ App.Views.Users = Backbone.View.extend({
 					duration: user.duration
 				});
 				this.$el.hide();
-				App.preferences = new App.Views.Preferences({model: App.currentUser});
+				App.preferencesView = new App.Views.Preferences({model: App.currentUser});
 			}.bind(this))
-			.fail(function(err) {
-				console.log(err.responseJSON.err);
+			.fail(function(error) {
+				$('.errors').html('<li>'+ error.responseJSON.msg +'</li>');
 			});
 	},
 
@@ -49,7 +50,16 @@ App.Views.Users = Backbone.View.extend({
 		var password = $('#password').val();
 		$.post('/users', {name: name, password: password})
 			.done(function(data) {
-				console.log(data);
+				App.usersView.login();
+			})
+			.fail(function(err) {
+				var errors = err.responseJSON.errors.map(function(error) {
+					return error.message;
+				});
+				$('.errors').empty();
+				errors.forEach(function(error) {
+					$('.errors').append('<li>'+ error +'</li>');
+				});
 			});
 	}
 });

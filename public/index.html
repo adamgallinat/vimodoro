@@ -53,6 +53,8 @@
 
 	<template id="log-in-template">
 		<div id="login-view">
+			<h1>Log In</h1>
+			<div class="errors"></div>
 			<input type="text" id="user-name" class="input" placeholder="User Name"></input>
 			<input type="password" id="password" class="input"></input>
 			<div class="submit" id="log-in-button">Log In</div>
@@ -62,6 +64,8 @@
 
 	<template id="sign-up-template">
 		<div id="login-view">
+			<h1>Sign Up</h1>
+			<div class="errors"></div>
 			<input type="text" id="user-name" class="input" placeholder="User Name"></input>
 			<input type="password" id="password" class="input"></input>
 			<div class="submit" id="sign-up-button">Sign Up</div>
@@ -71,6 +75,7 @@
 
 	<template id="preferences-template">
 		<div id="preferences-container">
+			<div class="errors"></div>
 			<div id="interval-set" class="set-times">
 				<span class="preferences-text for-time">Work for</span>
 				<input id="interval-input" class="preferences-input" type="text" onfocus="this.placeholder = ''" value={{interval}}>

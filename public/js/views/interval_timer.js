@@ -56,7 +56,7 @@ App.Views.IntervalTimer = Backbone.View.extend({
 		clearInterval(App.interval);
 		App.interval = null;
 		this.$el.hide();
-		App.preferences.$el.show();
+		App.preferencesView.$el.show();
 	}
 
 });

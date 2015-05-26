@@ -62,14 +62,17 @@ app.post('/login', function(req, res) {
 	console.log(req.body);
 	User.findOne({where: {name: req.body.name}, include: [Keyword]})
 		.then(function(user) {
-			bcrypt.compare(req.body.password, user.password, function(err, result) {
-				if (result) {
-					req.session.current_user = user.id;
-					res.send(user);
-				} else {
-					res.status(401).send({err: 'bad creds'});
-				}
-			});
+			if (user) {
+				bcrypt.compare(req.body.password, user.password, function(err, result) {
+					if (result) {
+						req.session.current_user = user.id;
+						res.send(user);
+					}
+				});
+			}
+			else {
+				res.status(401).send({msg: 'That username / password does not exist!'});
+			}
 		});
 });
 
@@ -96,10 +99,7 @@ app.get('/users/:id', function(req, res) {
 });
 
 app.post('/users', function(req, res) {
-	console.log(req.body);
 	bcrypt.hash(req.body.password, 10, function(err, hash) {
-		console.log(req.body.name);
-		console.log(hash);
 		User.create({
 			name: req.body.name,
 			password: hash,
@@ -108,6 +108,8 @@ app.post('/users', function(req, res) {
 		})
 			.then(function(user) {
 				res.send(user);
+			}, function(error) {
+				res.status(401).send(error);
 			});
 	});
 });

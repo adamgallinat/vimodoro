@@ -6,12 +6,13 @@ var App = {
 
 $(function() {
 	App.headerTemplate = Handlebars.compile($('#header').html());
+	App.usersView = new App.Views.Users();
 	$('.header').html(App.headerTemplate());
 	$(document).on('click', '#logout-link', App.logout);
 	$.get('/current_user')
 		.done(function(data) {
 			if (!data.current_user) {
-				App.usersView = new App.Views.Users();
+				App.usersView.renderLogin();
 			} else {
 				$.get('/users/' + data.current_user)
 					.done(function(user) {
@@ -45,6 +46,6 @@ App.logout = function() {
 			$('#preferences-view').empty();
 			$('#timer-view').empty();
 			$('#video-modal-view').empty();
-			App.usersView = new App.Views.Users();
+			App.usersView.renderLogin();
 		});
 }
