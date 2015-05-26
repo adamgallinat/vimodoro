@@ -7,7 +7,6 @@ App.Views.KeywordView = Backbone.View.extend({
 	},
 
 	initialize: function() {
-		console.log('new keyword view created');
 		this.template = Handlebars.compile($('#keyword-template').html());
 		this.render();
 	},

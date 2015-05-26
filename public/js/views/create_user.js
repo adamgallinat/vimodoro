@@ -3,7 +3,6 @@ App.Views.createUser = Backbone.View.extend({
 	el: '#create-user-view',
 
 	initialize: function() {
-		console.log('create user view created');
 		this.template = Handlebars.compile($('#create-user-template').html());
 		this.render();
 	},
