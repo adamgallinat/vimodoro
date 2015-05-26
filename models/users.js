@@ -6,18 +6,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       validate: {
         notEmpty: {msg: 'Username cannot be empty!'},
-        isUnique: function(value, next) {
-          users.find({
-            where: {name: value}
-          })
-          .done(function(error, user) {
-            if (error) {
-              return next(error);
-            }
+        isUnique: function(value) {
+          return users.find({where: {name: value}})
+          .then(function(user) {
             if (user) {
-              return next('User already exists!');
+              throw new Error('User already exists!');
             }
-            next();
           });
         },
       }
