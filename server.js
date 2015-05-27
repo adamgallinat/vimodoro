@@ -67,6 +67,8 @@ app.post('/login', function(req, res) {
 					if (result) {
 						req.session.current_user = user.id;
 						res.send(user);
+					} else {
+						res.status(401).send({msg: 'That username / password does not exist!'});
 					}
 				});
 			}
