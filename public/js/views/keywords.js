@@ -18,19 +18,14 @@ App.Views.KeywordsView = Backbone.View.extend({
 	},
 
 	renderOne: function(model) {
-		var keyword = new App.Views.KeywordView({model: model});
-		// keyworduserlist: the list of users of a particular keyword
-		var keywordUserList = keyword.model.get('users');
-		// turn keyworduserlist from a list of models to a list of names
-		var keywordUserNames = keywordUserList.map(function(keywordUser) {
-			return keywordUser.name;
+		var keywordView = new App.Views.KeywordView({model: model});
+		var currentUserKeywords = App.currentUser.get('keywords').map(function(keyword) {
+			return keyword.id;
 		});
-		var name = App.currentUser.get('name');
-		// if the name of the current user is in the list of keywordusers, preselect it
-		if (keywordUserNames.indexOf(name) !== -1) {
-			keyword.$el.addClass('selected');
+		if (currentUserKeywords.indexOf(model.get('id')) !== -1) {
+			keywordView.$el.addClass('selected');
 		}
-		this.$el.append(keyword.el);
+		this.$el.append(keywordView.el);
 	}
-	
+
 });

@@ -53,6 +53,7 @@ App.Views.Users = Backbone.View.extend({
 				App.usersView.login();
 			})
 			.fail(function(err) {
+				console.log(err);
 				var errors = err.responseJSON.errors.map(function(error) {
 					return error.message;
 				});

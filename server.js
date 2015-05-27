@@ -160,7 +160,7 @@ app.put('/users/:id/remove_keyword', function(req, res) {
 
 // KEYWORD ROUTES --> NOT CURRENTLY IN USE
 app.get('/keywords', function(req, res) {
-	Keyword.findAll({include: User})
+	Keyword.findAll()
 		.then(function(keywords) {
 			res.send(keywords);
 		});
@@ -168,9 +168,7 @@ app.get('/keywords', function(req, res) {
 
 app.get('/keywords/:id', function(req, res) {
 	Keyword.findOne({where: 
-		{id: req.params.id},
-		include: [User]
-	})
+		{id: req.params.id}})
 		.then(function(keyword) {
 			res.send(keyword);
 		});
